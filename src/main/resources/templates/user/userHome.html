@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})" >
+<head>
+    <meta charset="UTF-8">
+    <title>FFTD-Home</title>
+    <style>
+        body {
+            background-image: url('@{~/diary.jpg}');
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body >
+<section>
+<!--    <br/>-->
+
+
+    <h2>
+        <div style="display: flex; justify-content: center; background-color: #f2f2f2; padding: 10px;">
+            <span style="margin-right: 10px;">Welcome, <span th:text="${name}"></span></span>
+            <form th:if="${diaryExists}" th:action="@{/user/myDiary}" method="get">
+                <input type="submit" value="Visit Your Diary" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="margin-left: 10px;" />
+            </form>
+            <form th:if="${notDiaryExists}" th:action="@{/user/diary/create}" method="get">
+                <input type="submit" value="Create Your Diary" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="margin-left: 10px;" />
+            </form>
+
+            <a class="navbar-brand" href="/logout" style="text-align: right;">Logout</a>
+
+        </div>
+    </h2>
+    <br>
+    <br>
+
+    <div style="display: grid; grid-template-columns: repeat(3, 1fr); grid-gap: 20px; justify-items: center; align-items: center;">
+        <a class="text-success" style="background-color: #F2F3F3;  opacity: 0.85; width: 250px; height: 250px; text-align: center; text-decoration: none; color: black; font-size: 1.2em; font-weight: 650; display: flex; justify-content: center; align-items: center; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" href="/user/allDiaries">Explore</a>
+        <a class="text-success" style="background-color: #F2F3F3;  opacity: 0.85; width: 250px; height: 250px; text-align: center; text-decoration: none; color: black; font-size: 1.2em; font-weight: 650;display: flex; justify-content: center; align-items: center; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" href="/user/friendRequests">Friend Requests</a>
+        <a class="text-success" style="background-color: #F2F3F3;  opacity: 0.85; width: 250px; height: 250px; text-align: center; text-decoration: none; color: black; font-size: 1.2em; font-weight: 650;display: flex; justify-content: center; align-items: center; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" href="/user/familyRequests">Family Requests</a>
+        <a class="text-success" style="background-color: #F2F3F3;  opacity: 0.85; width: 250px; height: 250px; text-align: center; text-decoration: none; color: black; font-size: 1.2em; font-weight: 650;display: flex; justify-content: center; align-items: center; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" href="/user/myFriends">My Friends</a>
+        <a class="text-success" style="background-color: #F2F3F3;  opacity: 0.85; width: 250px; height: 250px; text-align: center; text-decoration: none; color: black; font-size: 1.2em; font-weight: 650;display: flex; justify-content: center; align-items: center; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" href="/user/myFamily">My Family</a>
+        <a class="text-success" style="background-color: #F2F3F3;  opacity: 0.85; width: 250px; height: 250px; text-align: center; text-decoration: none; color: black; font-size: 1.2em; font-weight: 650;display: flex; justify-content: center; align-items: center; box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2);" href="/user/othersDiaries">Other's Diaries</a>
+
+    </div>
+
+</section>
+
+</body>
+</html>

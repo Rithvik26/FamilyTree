@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Events Home</title>
+</head>
+<body>
+
+<section>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid justify-content-start">
+            <a class="navbar-brand "  href="/user/allDiaries">Friends</a>
+            <a class="navbar-brand " href="/user/gt" >Family Ancestry</a>
+            <a class="navbar-brand text-success " href="/s3/event/home">Events</a>
+            <a class="navbar-brand " href="/s3/travel/travelhome">Travel</a>
+            <a class="navbar-brand" href="/s3/justHappened">Just Happened</a>
+            <a class="navbar-brand" href="/user/myFamily" disabled>Bucket List</a>
+        </div>
+    </nav>
+
+<!--        <form id="add-event-form" th:action="@{/s3/event/add}" method="post" enctype="multipart/form-data">-->
+<!--            <div class="form-group">-->
+<!--                <label for="event">Event Name :</label>-->
+<!--                <input type="text" class="form-control" id="event" name="event" required>-->
+<!--            </div>-->
+<!--            <button type="submit" class="btn btn-primary btn-block">Add Event</button>-->
+<!--        </form>-->
+
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Add Event</h5>
+                        <form id="add-event-form" th:action="@{/s3/event/add}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="event">Event Name:</label>
+                                <input type="text" class="form-control" id="event" name="event" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Add Event</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </br>
+
+
+    <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; height: 100PX;" class="card-container">
+        <div style="width: 300px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;" th:each="event : ${allEvents}" class="card">
+            <div style="height: 100%; background-color: #28a745; display: flex; opacity:0.9; justify-content: center; align-items: center;">
+                <a style="display: block; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 5px;" th:href="@{/s3/event/{eventId}(eventId=${event.eventId})}" th:text="${event.eventName}"></a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+</section>
+
+<script>
+  document.getElementById("add-event-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // prevent the form from submitting
+
+    // get the event name from the input field
+    const eventName = document.getElementById("event").value;
+
+    // create a new table row with the event name
+    const newRow = document.createElement("tr");
+    newRow.innerHTML = `<td><label>${eventName}</label></td>`;
+
+    // add the new row to the table
+    document.getElementById("event-table").appendChild(newRow);
+
+    // reset the form
+    document.getElementById("add-event-form").reset();
+  });
+</script>
+
+</body>
+</html>

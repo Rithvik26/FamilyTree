@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<head>
+  <meta charset="UTF-8">
+  <title>Explore</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+</head>
+<body>
+<section>
+  <br/>
+
+  <h2>
+    <div style="display: flex; justify-content: center; background-color: #f2f2f2; padding: 10px;">
+      <span style="margin-right: 10px;">Welcome, <span th:text="${name}"></span></span>
+      <form th:if="${diaryExists}" th:action="@{/user/diary/home}" method="get">
+        <input type="submit" value="Visit Your Diary" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="margin-left: 10px;" />
+      </form>
+      <form th:if="${notDiaryExists}" th:action="@{/user/diary/create}" method="get">
+        <input type="submit" value="Create Your Diary" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off" style="margin-left: 10px;" />
+      </form>
+    </div>
+  </h2>
+
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid justify-content-start">
+      <a class="navbar-brand me-auto"  href="/user/allDiaries">Explore</a>
+      <a class="navbar-brand " href="/user/friendRequests" >Friend Requests</a>
+      <a class="navbar-brand" href="/user/familyRequests">Family Requests</a>
+      <a class="navbar-brand text-success " href="/user/myFriends">My Friends</a>
+      <a class="navbar-brand" href="/user/myFamily">My Family</a>
+      <a class="navbar-brand" href="/user/othersDiaries">Other's Diaries</a>
+    </div>
+    <div class="container-fluid justify-content-end">
+      <a class="navbar-brand" href="/logout">Logout</a>
+    </div>
+  </nav>
+
+
+  <div>
+    <table class="table table-striped">
+      <tbody>
+      <tr th:each="frnd : ${friends}">
+        <td>
+          <label th:text="${frnd.name}"></label>
+        </td>
+        <td>
+          <form th:action="@{/user/viewFriendDiary/{email}(email=${frnd.email})}" method="get">
+            <input type="submit" value="View Diary" class="btn btn-success" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</section>
+</body>
+</html>

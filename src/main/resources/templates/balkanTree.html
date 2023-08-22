@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Balkan Family Tree JS Example</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/balkan-family-tree/dist/balkan-family-tree.css">
+</head>
+<body>
+
+<div id="familyTree"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/balkan-family-tree/dist/balkan-family-tree.js"></script>
+<script th:inline="javascript">
+    var familyData = [
+        {
+            "id": "1",
+            "name": "John",
+            "parentId": null,
+            "children": [
+                {
+                    "id": "2",
+                    "name": "Jane",
+                    "parentId": "1"
+                },
+                {
+                    "id": "3",
+                    "name": "James",
+                    "parentId": "1"
+                }
+            ]
+        }
+    ];
+
+    var tree = new BalkanFamilyTree("#familyTree", {
+        data: familyData
+    });
+</script>
+
+</body>
+</html>

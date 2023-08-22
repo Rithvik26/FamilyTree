@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>My Dairy</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+
+
+</head>
+<body>
+<section>
+
+<!--    <nav class="navbar navbar-expand-lg navbar-light bg-light">-->
+<!--        <div class="container-fluid justify-content-start">-->
+<!--            <form th:action="@{/user/manage/friends/{email}(email=${otherEmail})}" method="get">-->
+<!--                <input type="submit" value="Friends" class="btn btn-success" />-->
+<!--            </form>-->
+<!--            <form th:action="@{/user/manage/family/{email}(email=${otherEmail})}" method="get">-->
+<!--                <input type="submit" value="Family Ancestry" class="btn btn-success" />-->
+<!--            </form>-->
+<!--            <form th:action="@{/user/manage/frndreq/{email}(email=${otherEmail})}" method="get">-->
+<!--                <input type="submit" value="All Requests" class="btn btn-success" />-->
+<!--            </form>-->
+<!--            &lt;!&ndash;            <a class="navbar-brand "  href="/user/manage/friends/{email}(email=${otherEmail})">Friends</a>&ndash;&gt;-->
+
+<!--            &lt;!&ndash;      <a class="navbar-brand " href="/user/familyRequests" disabled>Travel</a>&ndash;&gt;-->
+<!--            &lt;!&ndash;      <a class="navbar-brand" href="/user/myFriends" disabled>Just Happened</a>&ndash;&gt;-->
+<!--            &lt;!&ndash;      <a class="navbar-brand" href="/user/myFamily" disabled>Bucket List</a>&ndash;&gt;-->
+<!--        </div>-->
+<!--    </nav>-->
+
+
+    <h1 th:text = "${otherEmail}"> </h1>
+    </br>
+
+
+    <div style="display: flex; justify-content: center;">
+
+        <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 20px; height: 100PX;" class="card-container">
+
+        </div>
+        <div style="width: 300px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;"  class="card">
+            <div style="height: 100%; background-color: #28a745; display: flex; opacity:0.9; justify-content: center; align-items: center;">
+                <a style="display: block; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 5px;" th:href="@{/user/manage/friends/{email}(email=${otherEmail})}"> Friends </a>
+            </div>
+        </div>
+        <br>
+        <div style="width: 300px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;"  class="card">
+            <div style="height: 100%; background-color: #28a745; display: flex; opacity:0.9; justify-content: center; align-items: center;">
+                <a style="display: block; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 5px;" th:href="@{/user/manage/family/{email}(email=${otherEmail})}"> Family Ancestry </a>
+            </div>
+        </div>
+        <br>
+        <div style="width: 300px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;"  class="card">
+            <div style="height: 100%; background-color: #28a745; display: flex; opacity:0.9; justify-content: center; align-items: center;">
+                <a style="display: block; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 5px;" th:href="@{/user/manage/frndreq/{email}(email=${otherEmail})}"> All Requests </a>
+            </div>
+        </div>
+        <br>
+        <div style="width: 300px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;"  class="card">
+            <div style="height: 100%; background-color: #28a745; display: flex; opacity:0.9; justify-content: center; align-items: center;">
+                <a style="display: block; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 5px;" th:href="@{/manage/eventsHome/{email}(email=${otherEmail})}"> Events </a>
+            </div>
+        </div>
+        <br>
+        <div style="width: 300px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;"  class="card">
+            <div style="height: 100%; background-color: #28a745; display: flex; opacity:0.9; justify-content: center; align-items: center;">
+                <a style="display: block; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 5px;" th:href="@{/manage/travel/travelhome/{email}(email=${otherEmail})}"> Travel </a>
+            </div>
+        </div>
+        <br>
+        <div style="width: 300px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;"  class="card">
+            <div style="height: 100%; background-color: #28a745; display: flex; opacity:0.9; justify-content: center; align-items: center;">
+                <a style="display: block; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 5px;" th:href="@{/manage/justHappened/{email}(email=${otherEmail})}"> Just Happened </a>
+            </div>
+        </div>
+        <br>
+        <div style="width: 300px; border: 1px solid #ddd; border-radius: 10px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); overflow: hidden;"  class="card">
+            <div style="height: 100%; background-color: #28a745; display: flex; opacity:0.9; justify-content: center; align-items: center;">
+                <a style="display: block; color: #fff; text-decoration: none; text-align: center; padding: 10px; border-radius: 5px;" th:href="@{/manage/bucketListHome/{email}(email=${otherEmail})}"> Bucket List </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+</section>
+
+
+
+<hr/>
+
+
+</body>
+</html>

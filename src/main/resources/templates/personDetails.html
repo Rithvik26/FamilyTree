@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Person Details</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+
+<div id="personDetailsModal" class="modal fade" role="dialog">
+  <div class="modal-dialog modal-lg">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Person Details</h4>
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <!-- Person Details Form -->
+        <form th:action="@{/addRelation}" method="post">
+
+          <!-- Person Name -->
+          <div class="form-group">
+            <label for="personName">Name:</label>
+            <input type="text" class="form-control" id="personName" name="name" th:value="${person.name}" readonly="readonly">
+          </div>
+
+          <!-- Person Gender -->
+          <div class="form-group">
+            <label for="personGender">Gender:</label>
+            <input type="text" class="form-control" id="personGender" name="gender" th:value="${person.gender}" readonly="readonly">
+          </div>
+
+          <!-- Relation Type -->
+          <div class="form-group">
+            <label for="relationType">Relation Type:</label>
+            <select class="form-control" id="relationType" name="relationType">
+              <option value="parent">Parent</option>
+              <option value="child">Child</option>
+            </select>
+          </div>
+
+          <!-- Related Person Name -->
+          <div class="form-group">
+            <label for="relatedPersonName">Related Person:</label>
+            <input type="text" class="form-control" id="relatedPersonName" name="relatedPersonName">
+          </div>
+
+          <!-- Related Person Gender -->
+          <div class="form-group">
+            <label for="relatedPersonGender">Related Person Gender:</label>
+            <select class="form-control" id="relatedPersonGender" name="relatedPersonGender">
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+          </div>
+
+          <!-- Person ID (Hidden Field) -->
+          <input type="hidden" id="personId" name="personId" th:value="${person.id}" />
+
+          <!-- Submit Button -->
+          <button type="submit" class="btn btn-primary">Save</button>
+
+        </form>
+        <!-- End of Person Details Form -->
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- jQuery library -->
+<script th:src="@{/js/jquery.min.js}"></script>
+
+<!-- Popper JS -->
+<script th:src="@{/js/popper.min.js}"></script>
+
+<!-- Latest compiled JavaScript -->
+<script th:src="@{/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

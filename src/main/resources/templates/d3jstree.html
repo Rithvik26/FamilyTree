@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>D3JS Tree</title>
+    <meta charset="UTF-8">
+    <script src="https://d3js.org/d3.v6.min.js"></script>
+</head>
+<body>
+
+<div id="tree"></div>
+<pre>[[${data}]]</pre>
+<div id="myData" th:text="${data}"></div>
+<script type="text/javascript" th:inline="javascript">
+        var json = JSON.parse(document.getElementById("myData").textContent);
+        /* Create the tree layout */
+    var width = 600;
+    var height = 400;
+    var margin = {top: 20, right: 90, bottom: 30, left: 90};
+    var treeData = d3.hierarchy(json);
+    var treeLayout = d3.tree().size([width, height]);
+    var treeNodes = treeLayout(treeData);
+
+    /* Create the SVG container */
+    var svg = d3.select("#tree").append("svg")
+        .attr("width", width + margin.left + margin.right)
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    /* Add the links */
+    svg.selectAll(".link")
+        .data(treeNodes.links())
+        .enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("d", d3.linkVertical()
+            .x(function(d) { return d.x; })
+            .y(function(d) { return d.y; }));
+
+    /* Add the nodes */
+    var nodes = svg.selectAll(".node-label")
+        .data(treeNodes.descendants())
+        .enter()
+        .append("g")
+        .attr("class", "node-label")
+        .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+
+    /* Add the node labels */
+    nodes.append("text")
+        .attr("dy", "0.35em")
+        .attr("x", function(d) { return d.children ? -13 : 13; })
+        .attr("text-anchor", function(d) { return d.children ? "end" : "start"; })
+        .text(function(d) { return d.data.name; });
+
+    /* Add the node click handler */
+    nodes.on("click", function(d) {
+        alert(d.data.name);
+    });
+    </script>
+
+
+</body>
+</html>

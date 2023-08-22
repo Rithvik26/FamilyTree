@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org" th:replace="base::Layout(~{::section})">
+<head>
+    <meta charset="UTF-8">
+    <title>Event Posts</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+<section>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid justify-content-start">
+            <a class="navbar-brand "  href="/user/allDiaries">Friends</a>
+            <a class="navbar-brand " href="/user/gt" >Family Ancestry</a>
+            <a class="navbar-brand text-success " href="/s3/event/home">Events</a>
+            <a class="navbar-brand " href="/s3/travel/travelhome">Travel</a>
+            <a class="navbar-brand" href="/s3/justHappened">Just Happened</a>
+            <a class="navbar-brand" href="/user/myFamily" disabled>Bucket List</a>
+        </div>
+    </nav>
+
+    <p th:text="${eventName}"></p>
+    <hr/>
+
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <div class="card shadow">
+                    <div class="card-header">
+                        <h4 class="mb-0">Add Post</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/s3/event/addPost/{eventId}(eventId=${eventId})}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="message">Message:</label>
+                                <input type="text" class="form-control" id="message" name="message" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="file">File:</label>
+                                <div class="custom-file">
+                                    <input type="file" class="custom-file-input" id="file" name="file" onchange="previewFile()" accept="image/*,video/*" >
+                                    <label class="custom-file-label" for="file">Choose file</label>
+                                </div>
+                                <div class="mt-3">
+                                    <img id="preview-img" style="max-width: 100%; display: none;">
+                                    <video id="preview-video" style="max-width: 100%; display: none;" controls></video>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Add Post</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function previewFile() {
+            var previewImg = document.getElementById('preview-img');
+            var previewVideo = document.getElementById('preview-video');
+            var file = document.getElementById('file').files[0];
+            var reader = new FileReader();
+            reader.onloadend = function() {
+                if (file.type.startsWith('image/')) {
+                    previewImg.src = reader.result;
+                    previewImg.style.display = 'block';
+                    previewVideo.style.display = 'none';
+                } else if (file.type.startsWith('video/')) {
+                    previewVideo.src = reader.result;
+                    previewVideo.style.display = 'block';
+                    previewImg.style.display = 'none';
+                }
+            }
+            if (file) {
+                reader.readAsDataURL(file);
+            } else {
+                previewImg.src = '';
+                previewImg.style.display = 'none';
+                previewVideo.src = '';
+                previewVideo.style.display = 'none';
+            }
+        }
+    </script>
+
+    <hr/>
+
+    <div style="display: flex; justify-content: center; align-items: center;">
+        <!--        <div class="card-container" style="display: flex; flex-direction: column;">-->
+        <!--            <div class="card" th:each="post : ${eventPosts}" style="max-width: 400px; margin-bottom: 10px;">-->
+        <!--                <div th:if="${post.fileExtension eq ''}">-->
+        <!--                </div>-->
+        <!--                <div th:if="${post.fileExtension eq 'mp4'}">-->
+        <!--                    <video class="card-img-top" th:src="@{'/s3/posts/' + ${post.eid} + '/media'}" controls></video>-->
+        <!--                </div>-->
+        <!--                <div th:if="${post.fileExtension eq 'jpg'}">-->
+        <!--                    <img class="card-img-top" th:src="@{'/s3/posts/' + ${post.eid} + '/media'}" >-->
+        <!--                </div>-->
+        <!--                <div class="card-body">-->
+        <!--                    <p class="card-text" th:text="${post.message}"></p>-->
+        <!--                </div>-->
+        <!--                <div>-->
+        <!--                    <form th:action="@{/s3/event/deletePost/{eventPostId}(eventPostId=${post.eid})}" method="get" style="text-align: center;">-->
+        <!--                        <button type="submit" class="btn btn-danger">-->
+        <!--                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">-->
+        <!--                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>-->
+        <!--                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>-->
+        <!--                            </svg>-->
+        <!--                        </button>-->
+        <!--                    </form>-->
+        <!--                </div>-->
+        <!--                <br>-->
+
+        <!--                <div class="card-comments" th:each="comment : ${post.comments}">-->
+        <!--                    <p th:text="${comment.comment}"></p>-->
+        <!--                    <br>-->
+        <!--                    <p th:text="${comment.commentBy}"></p>-->
+        <!--                    <br>-->
+        <!--                    <p th:text="${comment.commentTime}"></p>-->
+        <!--                </div>-->
+
+
+        <!--                <form th:action="@{/s3/events/addComment/{eventPostId}(eventPostId=${post.eid})}" method="post" enctype="multipart/form-data">-->
+        <!--                    <div class="form-group">-->
+        <!--                        <label for="comment">Comment:</label>-->
+        <!--                        <input type="text" class="form-control" id="comment" name="comment" required>-->
+        <!--                    </div>-->
+        <!--                    <button type="submit" class="btn btn-primary btn-block">Add Comment</button>-->
+        <!--                </form>-->
+        <!--            </div>-->
+        <!--        </div>-->
+        <div class="card-container" style="display: flex; flex-direction: column;">
+            <div class="card" th:each="post : ${eventPosts}" style="max-width: 400px; margin-bottom: 10px;">
+                <div th:if="${post.fileExtension eq ''}">
+                </div>
+                <div th:if="${post.fileExtension eq 'mp4'}">
+                    <video class="card-img-top" th:src="@{'/s3/posts/' + ${post.eid} + '/media'}" controls></video>
+                </div>
+                <div th:if="${post.fileExtension eq 'jpg'}">
+                    <img class="card-img-top" th:src="@{'/s3/posts/' + ${post.eid} + '/media'}">
+                </div>
+
+                <div class="card-body">
+                    <p class="card-text" th:text="${post.message}"></p>
+                </div>
+
+                <div>
+                    <form th:action="@{/s3/event/deletePost/{eventPostId}(eventPostId=${post.eid})}" method="get" style="text-align: center;">
+                        <button type="submit" class="btn btn-danger">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                        </button>
+                    </form>
+                </div>
+                <br>
+                <div class="comments-section" style="text-align: center;">
+                    <div class="comments-toggle" style="cursor: pointer;" onclick="toggleComments(this)">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16">
+                            <path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/>
+                        </svg>
+                    </div>
+
+                    <div class="comments-list" style="display: none;">
+                        <form th:action="@{/s3/events/addComment/{eventPostId}(eventPostId=${post.eid})}" method="post" enctype="multipart/form-data">
+                            <div class="form-group">
+                                <label for="comment">Add Comment:</label>
+                                <input type="text" class="form-control" id="comment" name="comment" required>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-block">Add Comment</button>
+                        </form>
+                        </br>
+                        <div class="card-comments" th:each="comment, commentIndex : ${post.comments}">
+                            <div class="comment" th:class="'comment-' + ${commentIndex.index}" style="display: flex; align-items: flex-start; margin-bottom: 1rem; background-color: #f0f0f0; width: 100%; border: none; border-radius: 0; box-shadow: none; padding: 1rem;">
+                                <img src="https://www.gravatar.com/avatar/{{comment.commentBy}}?s=32&d=identicon&r=PG" alt="User Avatar" class="avatar" style="margin-right: 1rem; border-radius: 50%;">
+                                <div class="comment-details">
+                                    <p class="comment-info" style="display: flex; align-items: center;">
+                                        <span class="comment-author" th:text="${comment.commentBy}" style="font-size: 1rem; font-weight: bold; margin-right: 0.5rem;"></span>
+                                        <span class="comment-time" th:text="${#dates.format(comment.commentTime, 'MM/dd/yyyy hh:mm a')}" style="font-size: 0.8rem;"></span>
+                                    </p>
+                                    <p class="comment-text" th:text="${comment.comment}" style="font-size: 1.2rem; margin: 0 0 0.5rem;"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleComments(btn) {
+            var commentsList = btn.nextElementSibling;
+            if (commentsList.style.display === "none") {
+                commentsList.style.display = "block";
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16"><path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/></svg>';
+            } else {
+                commentsList.style.display = "none";
+                btn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat" viewBox="0 0 16 16"><path d="M2.678 11.894a1 1 0 0 1 .287.801 10.97 10.97 0 0 1-.398 2c1.395-.323 2.247-.697 2.634-.893a1 1 0 0 1 .71-.074A8.06 8.06 0 0 0 8 14c3.996 0 7-2.807 7-6 0-3.192-3.004-6-7-6S1 4.808 1 8c0 1.468.617 2.83 1.678 3.894zm-.493 3.905a21.682 21.682 0 0 1-.713.129c-.2.032-.352-.176-.273-.362a9.68 9.68 0 0 0 .244-.637l.003-.01c.248-.72.45-1.548.524-2.319C.743 11.37 0 9.76 0 8c0-3.866 3.582-7 8-7s8 3.134 8 7-3.582 7-8 7a9.06 9.06 0 0 1-2.347-.306c-.52.263-1.639.742-3.468 1.105z"/></svg>';
+            }
+        }
+
+
+    </script>
+
+</section>
+
+</body>
+</html>

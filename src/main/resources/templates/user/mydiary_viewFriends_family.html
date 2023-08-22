@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Org Chart</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="/user/homePage">FFTD</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-center" id="navbarSupportedContent">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" aria-current="page" href="/user/home">Home</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid justify-content-start">
+    <form  method="get">
+      <label th:text = "${frndName}"></label>
+    </form>
+    <form th:action="@{/user/friends_diary_view/{email}(email=${friendEmail})}" method="get">
+      <input type="submit" value="Friends" class="btn btn-success" />
+    </form>
+    <form th:action="@{/user/friends_diary_familyTree/{email}(email=${friendEmail})}" method="get">
+      <input type="submit" value="Family Ancestry" class="btn btn-success" />
+    </form>
+  </div>
+</nav>
+<h3>Family</h3>
+
+
+
+<div>
+  <table class="table table-striped">
+    <tbody>
+    <tr th:each="frnd : ${friends}">
+      <td>
+        <label th:text="${frnd.name}"></label>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+</div>
+<br/>
+<hr/>
+<br/>
+<h3>Family Tree</h3>
+
+<!-- Bind the data model to the view using Thymeleaf -->
+<div th:if="${not #lists.isEmpty(data)}">
+  <script th:inline="javascript">
+        google.charts.load('current', {packages:["orgchart"]});
+        google.charts.setOnLoadCallback(drawChart);
+
+        function drawChart() {
+    var chartData = new google.visualization.DataTable();
+    chartData.addColumn('string', 'Name');
+    chartData.addColumn('string', 'Manager');
+    chartData.addColumn('string', 'ToolTip');
+
+    chartData.addRows([[${data}]]);
+
+    var chart = new google.visualization.OrgChart(document.getElementById('chart_div'));
+    chart.draw(chartData, {'allowHtml':true});
+
+    google.visualization.events.addListener(chart, 'select', function() {
+        var selection = chart.getSelection();
+        if (selection.length > 0) {
+            var row = selection[0].row;
+            var curName = chartData.getValue(row, 0);
+            var manager = chartData.getValue(row, 1);
+            //alert("Name: " + name + ", Manager: " + manager);
+
+
+
+
+<!--window.location.reload()-->
+}
+
+    });
+
+}
+
+    </script>
+
+  <div th:id="'chart_div'"></div>
+</div>
+</body>
+</html>
